@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<addon scheme="3.0">
+    <id>departments</id>
+    <name>Departments</name>
+    <description>Создание модуля для CS-Cart</description>
+    <version>4.15.2.0</version>
+    <priority>5500</priority>
+    <position>400</position>
+    <status>active</status>
+    <has_icon>Y</has_icon>
+    <queries>
+      <item for="install">DROP TABLE IF EXISTS ?:departments;</item>
+      <item for="install">DROP TABLE IF EXISTS ?:department_descriptions;</item>
+      <item for="install">DROP TABLE IF EXISTS ?:department_links;</item>
+      <item for="install">
+         CREATE TABLE `?:departments` (
+            `department_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `position` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `status` varchar(1) NOT NULL DEFAULT 'A',
+            `admin_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `timestamp` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `upd_timestamp` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            KEY (`department_id`),
+            KEY (`admin_id`),
+            PRIMARY KEY (`department_id`)
+         ) Engine=InnoDB DEFAULT CHARSET UTF8;
+      </item>
+      <item for="install">
+         CREATE TABLE `?:department_descriptions` (
+            `department_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `lang_code` CHAR(2) NOT NULL DEFAULT '',
+            `department`  varchar(128) NOT NULL DEFAULT '',
+            `description` text DEFAULT NULL,
+            PRIMARY KEY (`department_id`, `lang_code`)
+         ) Engine=InnoDB DEFAULT CHARSET UTF8;
+      </item>
+      <item for="install">
+         CREATE TABLE `?:department_links` (
+            `employee_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `department_id` INT(11) UNSIGNED NOT NULL DEFAULT 0,
+            `user_id` INT(11) UNSIGNED NOT NULL,
+            KEY (`department_id`),
+            KEY (`user_id`),
+            KEY (`employee_id`)
+         ) Engine=InnoDB DEFAULT CHARSET UTF8;
+      </item>  
+      <item for="uninstall">DROP TABLE IF EXISTS ?:departments;</item>
+      <item for="uninstall">DROP TABLE IF EXISTS ?:department_descriptions;</item>
+      <item for="uninstall">DROP TABLE IF EXISTS ?:department_links;</item>
+ </queries>
+</addon>
